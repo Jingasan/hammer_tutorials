@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: rgb(255, 255, 255);
+  margin: 0;
+}
+
+.area_hammer {
+  width: 90%;
+  height: 200px;
+  margin: 0 auto;
+  background-color: #cccccc;
+}
