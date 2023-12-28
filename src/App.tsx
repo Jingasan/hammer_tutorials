@@ -19,30 +19,46 @@ function App() {
     if (!elm.current) return;
     const mc = new Hammer.Manager(elm.current);
     // ピンチ操作を作成
-    const pinch = new Hammer.Pinch();
+    const pinch = new Hammer.Pinch({
+      threshold: 0.5, // 0.5pixel以上のドラッグでピンチ操作を認識
+    });
     // ローテイト操作を作成
     const rotate = new Hammer.Rotate();
     // スワイプ操作を作成
     const swipe = new Hammer.Swipe();
-    // 指1本でのパン操作を作成
-    const pan1 = new Hammer.Pan({ event: "pan1", threshold: 0, pointers: 1 });
-    // 指2本でのパン操作を作成
-    const pan2 = new Hammer.Pan({ event: "pan2", threshold: 0, pointers: 2 });
-    // 指1本でのタップ操作を作成
-    const tap1 = new Hammer.Tap({ event: "tap1", taps: 1 });
-    // 指2本でのタップ操作を作成
-    const tap2 = new Hammer.Tap({ event: "tap2", taps: 2 });
+    // 指１本でのパン操作を作成
+    const pan1 = new Hammer.Pan({
+      event: "pan1", // 指１本と指２本でのパンを識別するためにユニークな名前を設定
+      pointers: 1, // パン操作に必要な指の本数を指定
+    });
+    // 指２本でのパン操作を作成
+    const pan2 = new Hammer.Pan({
+      event: "pan2", // 指１本と指２本でのパンを識別するためにユニークな名前を設定
+      pointers: 2, // パン操作に必要な指の本数を指定
+    });
+    // 指１本でのタップ操作を作成
+    const tap1 = new Hammer.Tap({
+      event: "tap1", // １回タップと２回タップを識別するためにユニークな名前を設定
+      taps: 1, // タップ操作に必要なタップ回数を指定
+    });
+    // 指２本でのタップ操作を作成
+    const tap2 = new Hammer.Tap({
+      event: "tap2", // １回タップと２回タップを識別するためにユニークな名前を設定
+      taps: 2, // タップ操作に必要なタップ回数を指定
+    });
     // プレス操作を作成
-    const press = new Hammer.Press({ time: 250 });
+    const press = new Hammer.Press({
+      time: 250, // プレス操作を認識するまでの時間(ミリ秒)を設定
+    });
     // ピンチ操作とローテイト操作を同時に認識する
     pinch.recognizeWith(rotate);
-    // 2本指パン操作とピンチ操作を同時に認識する
+    // ２本指パン操作とピンチ操作を同時に認識する
     pan2.recognizeWith(pinch);
-    // 1本指パン操作とスワイプ操作を同時に認識する
+    // １本指パン操作とスワイプ操作を同時に認識する
     pan1.recognizeWith(swipe);
-    // 2本指タップ操作と1本指タップ操作を同時に認識する
+    // ２本指タップ操作と１本指タップ操作を同時に認識する
     tap2.recognizeWith(tap1);
-    // プレス操作と1本指タップ操作を同時に認識する
+    // プレス操作と１本指タップ操作を同時に認識する
     press.recognizeWith(tap1);
     // イベントリスナーにすべてのタッチ操作を追加
     mc.add([pinch, rotate, swipe, pan1, pan2, tap1, tap2, press]);
@@ -70,22 +86,22 @@ function App() {
       console.log("swipe");
       console.log(ev);
     });
-    // 1本指パン操作時の処理
+    // １本指パン操作時の処理
     mc.on("pan1", function (ev) {
       console.log("pan1");
       console.log(ev);
     });
-    // 2本指パン操作時の処理
+    // ２本指パン操作時の処理
     mc.on("pan2", function (ev) {
       console.log("pan2");
       console.log(ev);
     });
-    // 1本指タップ操作時の処理
+    // １本指タップ操作時の処理
     mc.on("tap1", function (ev) {
       console.log("tap1");
       console.log(ev);
     });
-    // 2本指タップ操作時の処理
+    // ２本指タップ操作時の処理
     mc.on("tap2", function (ev) {
       console.log("tap2");
       console.log(ev);
